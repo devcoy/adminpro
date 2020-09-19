@@ -7,21 +7,14 @@ import { Component } from '@angular/core';
 })
 export class ProgressComponent {
 
-  progressValue: number = 40;
+  progressOne: number = 25;
+  progressTwo: number = 35;
 
-  get getProcentaje() {
-    return `${this.progressValue}%`;
+  get getProgress1() {
+    return `${this.progressOne}%`;
   }
 
-  changeValue(value: number) {
-
-    if(this.progressValue >= 100 && value >= 0) {
-      return this.progressValue = 100;
-    }
-    if(this.progressValue <= 0 && value < 0) {
-      return this.progressValue = 0;
-    }
-    return this.progressValue = this.progressValue + value;
+  get getProgress2() {
+    return `${this.progressTwo}%`;
   }
-
 }
