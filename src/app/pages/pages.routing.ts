@@ -8,13 +8,12 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: PagesComponent,
     children: [
-      { path: 'dashboard', component: DashboardComponent },
+      { path: '', component: DashboardComponent },
       { path: 'progress', component: ProgressComponent },
       { path: 'graphics1', component: Graphics1Component },
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
     ]
   },
 ];
