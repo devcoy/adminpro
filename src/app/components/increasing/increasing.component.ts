@@ -32,4 +32,15 @@ export class IncreasingComponent implements OnInit {
     return this.progressValue = this.progressValue + value;
   }
 
+  onChange(newValue: number) {
+    if(newValue >= 100) {
+      this.progressValue = 100;
+    } else if(newValue <= 0) {
+      this.progressValue = 0;
+    } else {
+      this.progressValue = newValue;
+    }
+    this.outputValue.emit(this.progressValue);
+  }
+
 }
