@@ -6,11 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class Graphics1Component implements OnInit {
+export class Graphics1Component {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  title1: string = 'Ventas';
+  labels1: string[] = ['E-Commcerce', 'En sitio', 'En sucursal'];
+  data1: any[] = [
+    [20, 20, 60]
+  ];
 
 }
