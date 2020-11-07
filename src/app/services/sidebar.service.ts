@@ -24,6 +24,6 @@ export class SidebarService {
         }
       ]
     }
-  ]
+  ];
   constructor() { }
 }

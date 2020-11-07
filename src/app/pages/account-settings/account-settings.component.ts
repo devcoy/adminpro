@@ -8,7 +8,7 @@ import { SettingsService } from 'src/app/services/settings.service';
   ]
 })
 export class AccountSettingsComponent implements OnInit {
-  
+
   linkTheme = document.querySelector('#theme');
 
   constructor(
@@ -16,11 +16,11 @@ export class AccountSettingsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+
   }
 
   changeTheme(theme: string) {
-    this.settingsService.changeTheme( theme );
+    this.settingsService.changeTheme(theme);
   }
 
 }
