@@ -1,23 +1,26 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+   providedIn: 'root'
 })
 export class SettingsService {
 
-  private linkTheme = document.querySelector('#theme');
+   private linkTheme = document.querySelector('#theme');
 
-  constructor() {
+   constructor() {
 
-    let urlTheme = localStorage.getItem('theme') || './assets/css/colors/default-dark.css';
-    this.linkTheme.setAttribute('href', urlTheme);
-  }
+      const urlTheme = localStorage.getItem('theme') || './assets/css/colors/default-dark.css';
+      this.linkTheme.setAttribute('href', urlTheme);
+   }
 
-  changeTheme(theme: string) {
-    const url = `./assets/css/colors/${ theme }.css`;
+   changeTheme(theme: string) {
+      const url = `./assets/css/colors/${theme}.css`;
 
-    this.linkTheme.setAttribute('href', url);
-    localStorage.setItem('theme', url);
-  }
-  
+      this.linkTheme.setAttribute('href', url);
+      localStorage.setItem('theme', url);
+
+   }
+
+
+
 }
