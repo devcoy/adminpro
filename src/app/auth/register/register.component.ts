@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-register',
@@ -9,13 +9,16 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class RegisterComponent {
 
     public formSubmitted = false;
+
     public registerForm = this.fb.group({
 
         name: ['Jorge Cervantes', [Validators.required, Validators.minLength(3)]],
         email: ['jorge@email.com', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        password2: ['', [Validators.required, Validators.minLength(8)]],
+        password: ['123456789', [Validators.required, Validators.minLength(8)]],
+        password2: ['12345678', [Validators.required, Validators.minLength(8)]],
         terms: [false, [Validators.required]],
+    }, {
+        validators: this.passwordEquals('password', 'password2')
     });
 
 
@@ -28,7 +31,8 @@ export class RegisterComponent {
     createUser() {
 
         this.formSubmitted = true;
-        console.log(this.registerForm.value);
+        // console.log(this.registerForm.value);
+        console.warn(this.registerForm);
 
         if( this.registerForm.valid ) {
 
@@ -39,6 +43,8 @@ export class RegisterComponent {
             console.warn('Formulario incorrecto');
         }
     }
+
+
 
 
     fieldNotValid( field: string ): boolean {
@@ -53,9 +59,47 @@ export class RegisterComponent {
 
 
 
-    acceptTerms() {
+
+
+    passwordNotValid(): boolean {
+
+        const password1 = this.registerForm.get('password').value;
+        const password2 = this.registerForm.get('password2').value;
+
+        if( password1 !== password2 && this.formSubmitted ) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+
+
+
+    acceptTerms(): boolean {
         return !this.registerForm.get('terms').value && this.formSubmitted;
     }
 
 
+    passwordEquals( password1Name: string, password2Name: string) {
+
+        return ( formGroup: FormGroup ) => {
+
+            const password1Control = formGroup.get(password1Name);
+            const password2Control = formGroup.get(password2Name);
+
+            if( password1Control.value === password2Control.value ) {
+
+                password2Control.setErrors(null);
+
+            } else {
+
+                password2Control.setErrors( { notEquals: true } );
+            }
+
+        }
+
+    }
 }
