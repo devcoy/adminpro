@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import Swal from 'sweetalert2';
+
 import { UserService } from '../../services/user.service';
+
 
 
 @Component({
@@ -37,11 +40,8 @@ export class RegisterComponent {
     createUser(): void {
 
         this.formSubmitted = true;
-        // console.log(this.registerForm.value);
-        // console.warn(this.registerForm);
 
         if( this.registerForm.invalid ) {
-
             return;
         }
 
@@ -52,8 +52,12 @@ export class RegisterComponent {
                     // console.log('[ register.component ] Usuario creado');
                     console.log(resp);
                 },
-                err => console.warn(err)
-            );
+                (err) => {
+
+                    // Si hay un error
+                    Swal.fire('Error', err.error.msg, 'error');
+
+                });
     }
 
 
