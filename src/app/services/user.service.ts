@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RegisterForm } from '../interfaces/register-form.interface';
 import { environment } from '../../environments/environment.prod';
 import { Observable } from 'rxjs';
+
+
+import { RegisterForm } from '../interfaces/register-form.interface';
+import { LoginForm } from '../interfaces/login-form.interface';
 
 const BASE_URL = environment.base_url;
 
@@ -26,7 +29,13 @@ export class UserService {
     // console.log('Creando usuario');
 
     return this.http.post( `${ BASE_URL }/usuarios`, formData );
-
-
   }
+
+
+  login( formData: LoginForm ): Observable<any> {
+
+    return this.http.post( `${ BASE_URL }/auth`, formData );
+  }
+
+
 }
