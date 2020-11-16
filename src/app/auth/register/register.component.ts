@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+
 
 @Component({
     selector: 'app-register',
@@ -12,11 +14,12 @@ export class RegisterComponent {
 
     public registerForm = this.fb.group({
 
-        name: ['Jorge Cervantes', [Validators.required, Validators.minLength(3)]],
-        email: ['jorge@email.com', [Validators.required, Validators.email]],
-        password: ['123456789', [Validators.required, Validators.minLength(8)]],
-        password2: ['12345678', [Validators.required, Validators.minLength(8)]],
-        terms: [false, [Validators.required]],
+        nombre: [ 'Dummy', [Validators.required, Validators.minLength(3)]],
+        email: [ 'dummy@email.com', [Validators.required, Validators.email]],
+        password: [ '123456789', [Validators.required, Validators.minLength(8)]],
+        password2: [ '123456789', [Validators.required, Validators.minLength(8)]],
+        terms: [ true, [Validators.required]],
+
     }, {
         validators: this.passwordEquals('password', 'password2')
     });
@@ -25,23 +28,32 @@ export class RegisterComponent {
 
     constructor(
         private fb: FormBuilder,
+        private userService: UserService
     ) { }
 
 
-    createUser() {
+
+
+    createUser(): void {
 
         this.formSubmitted = true;
         // console.log(this.registerForm.value);
-        console.warn(this.registerForm);
+        // console.warn(this.registerForm);
 
-        if( this.registerForm.valid ) {
+        if( this.registerForm.invalid ) {
 
-            console.warn('Formulario correcto');
-
-        } else {
-
-            console.warn('Formulario incorrecto');
+            return;
         }
+
+        // Realizar el post
+        this.userService.createUser( this. registerForm.value )
+            .subscribe(
+                resp => {
+                    // console.log('[ register.component ] Usuario creado');
+                    console.log(resp);
+                },
+                err => console.warn(err)
+            );
     }
 
 

@@ -25,7 +25,7 @@
 
         <div class="row py-3">
           <div class="col text-danger">
-            <p *ngIf="fieldNotValid('name')">El nombre es obligatorio</p>
+            <p *ngIf="fieldNotValid('nombre')">El nombre es obligatorio</p>
             <p *ngIf="fieldNotValid('email')">El correo electrónico es obligatorio</p>
             <p *ngIf="passwordNotValid()">Las contraseñas no coinciden</p>
             <p *ngIf="acceptTerms()">Debe aceptar los términos de uso</p>
@@ -37,7 +37,7 @@
               class="form-control"
               type="text"
               placeholder="Nombre"
-              formControlName="name"
+              formControlName="nombre"
             />
           </div>
         </div>
