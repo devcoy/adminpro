@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
 import { Observable } from 'rxjs';
+import { tap } from "rxjs/operators";
 
 
 import { RegisterForm } from '../interfaces/register-form.interface';
@@ -28,13 +29,24 @@ export class UserService {
 
     // console.log('Creando usuario');
 
-    return this.http.post( `${ BASE_URL }/usuarios`, formData );
+    return this.http.post( `${ BASE_URL }/usuarios`, formData )
+      .pipe(
+        tap( (resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
+
 
 
   login( formData: LoginForm ): Observable<any> {
 
-    return this.http.post( `${ BASE_URL }/auth`, formData );
+    return this.http.post( `${ BASE_URL }/auth`, formData )
+      .pipe(
+        tap( (resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
   }
 
 

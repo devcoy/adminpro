@@ -50,7 +50,7 @@ export class RegisterComponent {
             .subscribe(
                 resp => {
                     // console.log('[ register.component ] Usuario creado');
-                    console.log(resp);
+                    // console.log(resp);
                 },
                 (err) => {
 

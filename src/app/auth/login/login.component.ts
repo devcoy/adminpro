@@ -35,7 +35,7 @@ export class LoginComponent {
 
         this.userService.login( this.loginForm.value )
             .subscribe( resp => {
-                console.warn(resp);
+                // console.warn(resp);
             }, err => {
                 console.log(err);
                 Swal.fire('Error', err.error.msg, 'error');
