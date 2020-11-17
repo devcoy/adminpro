@@ -20,6 +20,7 @@ export class UserService {
 
   public auth2: any;
 
+
   constructor(
 
     private http: HttpClient,
@@ -32,11 +33,18 @@ export class UserService {
 
   googleInit() {
 
-    gapi.load('auth2', () => {
-      this.auth2 = gapi.auth2.init({
-        client_id: '854454108413-v9jce5b17md35enuvo3840fva977jqve.apps.googleusercontent.com',
-        cookiepolicy: 'single_host_origin',
+    return new Promise( resolve => {
+
+      gapi.load('auth2', () => {
+
+        this.auth2 = gapi.auth2.init({
+          client_id: '854454108413-v9jce5b17md35enuvo3840fva977jqve.apps.googleusercontent.com',
+          cookiepolicy: 'single_host_origin',
+        });
+
+        resolve();
       });
+
     });
   }
 

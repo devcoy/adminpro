@@ -83,15 +83,13 @@ export class LoginComponent implements OnInit {
     }
 
 
-    startApp() {
-        gapi.load('auth2', () => {
-            // Retrieve the singleton for the GoogleAuth library and set up the client.
-            this.auth2 = gapi.auth2.init({
-                client_id: '854454108413-v9jce5b17md35enuvo3840fva977jqve.apps.googleusercontent.com',
-                cookiepolicy: 'single_host_origin',
-            });
-            this.attachSignin(document.getElementById('my-signin2'));
-        });
+    async startApp() {
+
+        await this.userService.googleInit();
+        this.auth2 = this.userService.auth2;
+
+        this.attachSignin(document.getElementById('my-signin2'));
+
     };
 
 
@@ -103,9 +101,9 @@ export class LoginComponent implements OnInit {
             (googleUser) => {
 
                 const tokenGoogle = googleUser.getAuthResponse().id_token;
-                this.userService.loginGoogle(tokenGoogle).subscribe( resp => {
+                this.userService.loginGoogle(tokenGoogle).subscribe(resp => {
 
-                    this.ngZone.run( () => {
+                    this.ngZone.run(() => {
                         // Navegar al Dashboard
                         this.router.navigateByUrl('/');
 
