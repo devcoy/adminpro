@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Validators, FormBuilder } from '@angular/forms';
 import { UserService } from '../../services/user.service';
@@ -30,7 +30,8 @@ export class LoginComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private userService: UserService
+        private userService: UserService,
+        private ngZone: NgZone
     ) { }
 
 
@@ -102,10 +103,13 @@ export class LoginComponent implements OnInit {
             (googleUser) => {
 
                 const tokenGoogle = googleUser.getAuthResponse().id_token;
-                this.userService.loginGoogle(tokenGoogle).subscribe(resp => {
+                this.userService.loginGoogle(tokenGoogle).subscribe( resp => {
 
-                    // Navegar al Dashboard
-                    this.router.navigateByUrl('/');
+                    this.ngZone.run( () => {
+                        // Navegar al Dashboard
+                        this.router.navigateByUrl('/');
+
+                    });
 
                 }, error => {
                     console.error('No se pudo hacer el login con Google');
