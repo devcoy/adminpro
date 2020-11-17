@@ -50,4 +50,14 @@ export class UserService {
   }
 
 
+  loginGoogle( token: string ): Observable<any> {
+
+    return this.http.post( `${ BASE_URL }/auth/google`, { token } )
+      .pipe(
+        tap( (resp: any) => {
+          localStorage.setItem('token', resp.token);
+        })
+      );
+  }
+
 }
