@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { UserService } from '../../services/user.service';
@@ -17,11 +18,11 @@ export class RegisterComponent {
 
     public registerForm = this.fb.group({
 
-        nombre: [ 'Dummy', [Validators.required, Validators.minLength(3)]],
-        email: [ 'dummy@email.com', [Validators.required, Validators.email]],
-        password: [ '123456789', [Validators.required, Validators.minLength(8)]],
-        password2: [ '123456789', [Validators.required, Validators.minLength(8)]],
-        terms: [ true, [Validators.required]],
+        nombre: ['Dummy', [Validators.required, Validators.minLength(3)]],
+        email: ['dummy@email.com', [Validators.required, Validators.email]],
+        password: ['123456789', [Validators.required, Validators.minLength(8)]],
+        password2: ['123456789', [Validators.required, Validators.minLength(8)]],
+        terms: [true, [Validators.required]],
 
     }, {
         validators: this.passwordEquals('password', 'password2')
@@ -31,7 +32,8 @@ export class RegisterComponent {
 
     constructor(
         private fb: FormBuilder,
-        private userService: UserService
+        private userService: UserService,
+        private router: Router
     ) { }
 
 
@@ -41,16 +43,17 @@ export class RegisterComponent {
 
         this.formSubmitted = true;
 
-        if( this.registerForm.invalid ) {
+        if (this.registerForm.invalid) {
             return;
         }
 
         // Realizar el post
-        this.userService.createUser( this. registerForm.value )
+        this.userService.createUser(this.registerForm.value)
             .subscribe(
                 resp => {
-                    // console.log('[ register.component ] Usuario creado');
-                    // console.log(resp);
+
+                    // Navegar al Dashboard
+                    this.router.navigateByUrl('/');
                 },
                 (err) => {
 
@@ -63,9 +66,9 @@ export class RegisterComponent {
 
 
 
-    fieldNotValid( field: string ): boolean {
+    fieldNotValid(field: string): boolean {
 
-        if( this.registerForm.get( field ).invalid && this.formSubmitted ) {
+        if (this.registerForm.get(field).invalid && this.formSubmitted) {
             return true;
         } else {
             return false;
@@ -76,13 +79,12 @@ export class RegisterComponent {
 
 
 
-
     passwordNotValid(): boolean {
 
         const password1 = this.registerForm.get('password').value;
         const password2 = this.registerForm.get('password2').value;
 
-        if( password1 !== password2 && this.formSubmitted ) {
+        if (password1 !== password2 && this.formSubmitted) {
             return true;
         } else {
             return false;
@@ -99,20 +101,20 @@ export class RegisterComponent {
     }
 
 
-    passwordEquals( password1Name: string, password2Name: string) {
+    passwordEquals(password1Name: string, password2Name: string) {
 
-        return ( formGroup: FormGroup ) => {
+        return (formGroup: FormGroup) => {
 
             const password1Control = formGroup.get(password1Name);
             const password2Control = formGroup.get(password2Name);
 
-            if( password1Control.value === password2Control.value ) {
+            if (password1Control.value === password2Control.value) {
 
                 password2Control.setErrors(null);
 
             } else {
 
-                password2Control.setErrors( { notEquals: true } );
+                password2Control.setErrors({ notEquals: true });
             }
 
         }

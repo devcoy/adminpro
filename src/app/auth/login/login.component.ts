@@ -44,8 +44,14 @@ export class LoginComponent implements OnInit {
             .subscribe(resp => {
 
                 if (this.loginForm.get('remember').value) {
+
                     localStorage.setItem('email', this.loginForm.get('email').value);
+
+                    // Navegar al Dashboard
+                    this.router.navigateByUrl('/');
+
                 } else {
+
                     localStorage.removeItem('email');
                 }
 
@@ -91,12 +97,20 @@ export class LoginComponent implements OnInit {
 
     attachSignin(element) {
 
-        console.log(element.id);
+        // console.log(element.id);
         this.auth2.attachClickHandler(element, {},
             (googleUser) => {
 
                 const tokenGoogle = googleUser.getAuthResponse().id_token;
-                this.userService.loginGoogle( tokenGoogle ).subscribe();
+                this.userService.loginGoogle(tokenGoogle).subscribe(resp => {
+
+                    // Navegar al Dashboard
+                    this.router.navigateByUrl('/');
+
+                }, error => {
+                    console.error('No se pudo hacer el login con Google');
+
+                });
 
             }, (error) => {
 

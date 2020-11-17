@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
-import { Observable } from 'rxjs';
-import { tap } from "rxjs/operators";
+import { Observable, of } from 'rxjs';
+import { tap, map, catchError } from 'rxjs/operators';
 
 
 import { RegisterForm } from '../interfaces/register-form.interface';
@@ -21,17 +21,34 @@ export class UserService {
   constructor(
 
     private http: HttpClient
-
   ) { }
 
 
-  createUser( formData: RegisterForm ): Observable<any> {
 
-    // console.log('Creando usuario');
+  validateToken(): Observable<boolean> {
 
-    return this.http.post( `${ BASE_URL }/usuarios`, formData )
+    const token = localStorage.getItem('token') || '';
+
+    return this.http.get(`${BASE_URL}/auth/renew`, {
+      headers: {
+        'x-token': token
+      }
+    }).pipe(
+      tap( (resp: any) => {
+        localStorage.setItem('token', resp.token);
+      }),
+      map( resp => true),
+      catchError( error => of(false)) // atrapamos el error, es decir, si no es true, retornará un false
+    );
+
+  }
+
+
+  createUser(formData: RegisterForm): Observable<any> {
+
+    return this.http.post(`${BASE_URL}/usuarios`, formData)
       .pipe(
-        tap( (resp: any) => {
+        tap((resp: any) => {
           localStorage.setItem('token', resp.token);
         })
       );
@@ -39,22 +56,22 @@ export class UserService {
 
 
 
-  login( formData: LoginForm ): Observable<any> {
+  login(formData: LoginForm): Observable<any> {
 
-    return this.http.post( `${ BASE_URL }/auth`, formData )
+    return this.http.post(`${BASE_URL}/auth`, formData)
       .pipe(
-        tap( (resp: any) => {
+        tap((resp: any) => {
           localStorage.setItem('token', resp.token);
         })
       );
   }
 
 
-  loginGoogle( token: string ): Observable<any> {
+  loginGoogle(token: string): Observable<any> {
 
-    return this.http.post( `${ BASE_URL }/auth/google`, { token } )
+    return this.http.post(`${BASE_URL}/auth/google`, { token })
       .pipe(
-        tap( (resp: any) => {
+        tap((resp: any) => {
           localStorage.setItem('token', resp.token);
         })
       );
