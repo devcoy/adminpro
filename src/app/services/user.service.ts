@@ -35,6 +35,24 @@ export class UserService {
   }
 
 
+
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
+  get role(): string {
+    return this.usuario.role || '';
+  }
+
+
+
+
+
+
   googleInit() {
 
     return new Promise( resolve => {
@@ -53,17 +71,11 @@ export class UserService {
   }
 
 
-  get token(): string {
-    return localStorage.getItem('token') || '';
-  }
 
-  get uid(): string {
-    return this.usuario.uid || '';
-  }
 
-  get role(): string {
-    return this.usuario.role || '';
-  }
+
+
+
 
 
   validateToken(): Observable<boolean> {
@@ -89,9 +101,10 @@ export class UserService {
   }
 
 
+
+
+
   createUser(formData: RegisterForm): Observable<any> {
-
-
 
     return this.http.post(`${BASE_URL}/usuarios`, formData)
       .pipe(
@@ -100,6 +113,12 @@ export class UserService {
         })
       );
   }
+
+
+
+
+
+
 
 
 
@@ -120,6 +139,10 @@ export class UserService {
 
 
 
+
+
+
+
   login(formData: LoginForm): Observable<any> {
 
     return this.http.post(`${BASE_URL}/auth`, formData)
@@ -129,6 +152,10 @@ export class UserService {
         })
       );
   }
+
+
+
+
 
 
 
