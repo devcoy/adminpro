@@ -6,28 +6,34 @@
           <h4>Datos de usuario</h4>
         </div>
         <h6 class="card-subtitle">Ajuste de tus datos de perfil</h6>
-        <form class="form p-t-20">
+        <form
+          class="form p-t-20"
+          [formGroup]="profileForm"
+          (ngSubmit)="updateProfile()"
+        >
           <div class="form-group">
-            <label for="exampleInputuname">User Name</label>
+            <label for="exampleInputuname">Nombre</label>
             <div class="input-group">
               <div class="input-group-addon"><i class="ti-user"></i></div>
               <input
                 type="text"
                 class="form-control"
                 id="exampleInputuname"
-                placeholder="Username"
+                placeholder="Ingresa tu nombre"
+                formControlName="nombre"
               />
             </div>
           </div>
           <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
+            <label for="exampleInputEmail1">Correo electrónico</label>
             <div class="input-group">
               <div class="input-group-addon"><i class="ti-email"></i></div>
               <input
                 type="email"
                 class="form-control"
                 id="exampleInputEmail1"
-                placeholder="Enter email"
+                placeholder="Ingresa tu correo electrónico"
+                formControlName="email"
               />
             </div>
           </div>
@@ -35,6 +41,7 @@
           <button
             type="submit"
             class="btn btn-success waves-effect waves-light m-r-10 btn-block"
+            [disabled]="profileForm.invalid"
           >
             <i class="fa fa-save"></i>
             Guardar
@@ -52,14 +59,14 @@
         </div>
         <h6 class="card-subtitle">Agrega una imagen de perfil</h6>
 
-        <img src="" alt="Imagen de perfil">
-        <br>
+        <img src="" alt="Imagen de perfil" />
+        <br />
         <button
-            class="btn btn-success waves-effect waves-light m-r-10 mt-4 btn-block"
-          >
-            <i class="fa fa-upload"></i>
-            Actualizar imagen
-          </button>
+          class="btn btn-success waves-effect waves-light m-r-10 mt-4 btn-block"
+        >
+          <i class="fa fa-upload"></i>
+          Actualizar imagen
+        </button>
       </div>
     </div>
   </div>

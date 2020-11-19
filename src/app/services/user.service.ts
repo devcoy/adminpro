@@ -53,23 +53,32 @@ export class UserService {
   }
 
 
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
+  get role(): string {
+    return this.usuario.role || '';
+  }
 
 
   validateToken(): Observable<boolean> {
 
-    const token = localStorage.getItem('token') || '';
-
     return this.http.get(`${BASE_URL}/auth/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
       map((resp: any) => {
 
         // console.log(resp);
-        const { email, google, nombre, role, img = '', uid } = resp.usuario;
+        const { email, google, nombre, rol, img = '', uid } = resp.usuario;
 
-        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
+        this.usuario = new Usuario(nombre, email, '', img, google, rol, uid);
 
         localStorage.setItem('token', resp.token);
         return true;
@@ -82,12 +91,31 @@ export class UserService {
 
   createUser(formData: RegisterForm): Observable<any> {
 
+
+
     return this.http.post(`${BASE_URL}/usuarios`, formData)
       .pipe(
         tap((resp: any) => {
           localStorage.setItem('token', resp.token);
         })
       );
+  }
+
+
+
+  updateProfile( formData: { nombre: string, email: string, role: string } ): Observable<any> {
+
+    formData = {
+      ...formData,
+      role: this.role
+    };
+
+    return this.http.put(`${BASE_URL}/usuarios/${ this.uid }`, formData, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+
   }
 
 
@@ -129,5 +157,8 @@ export class UserService {
     });
 
   }
+
+
+
 
 }
