@@ -66,12 +66,10 @@ export class UserService {
     }).pipe(
       tap((resp: any) => {
 
-        console.log(resp);
+        // console.log(resp);
         const { email, google, nombre, role, img, uid } = resp.usuario;
 
-
         this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
-        this.usuario.imprimirUsuario();
 
         localStorage.setItem('token', resp.token);
       }),
