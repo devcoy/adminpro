@@ -18,7 +18,7 @@ const routes: Routes = [
     canActivate: [ AuthGuard ],
     children: [
       { path: '', component: DashboardComponent, data: {title: 'Dashboard'} },
-      { path: 'account-settings', component: AccountSettingsComponent, data: {title: 'Ajustes'} },
+      { path: 'ajustes-de-cuenta', component: AccountSettingsComponent, data: {title: 'Ajustes de cuenta'} },
       { path: 'graphics1', component: Graphics1Component, data: {title: 'Gráficas'} },
       { path: 'progress', component: ProgressComponent, data: {title: 'Progressbar'} },
       { path: 'promesas', component: PromesasComponent, data: {title: 'Promesas'} },
