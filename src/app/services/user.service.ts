@@ -64,16 +64,16 @@ export class UserService {
         'x-token': token
       }
     }).pipe(
-      tap((resp: any) => {
+      map((resp: any) => {
 
         // console.log(resp);
-        const { email, google, nombre, role, img, uid } = resp.usuario;
+        const { email, google, nombre, role, img = '', uid } = resp.usuario;
 
         this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
 
         localStorage.setItem('token', resp.token);
+        return true;
       }),
-      map(resp => true),
       catchError(error => of(false)) // atrapamos el error, es decir, si no es true, retornará un false
     );
 
