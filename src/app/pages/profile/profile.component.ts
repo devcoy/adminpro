@@ -71,10 +71,14 @@ export class ProfileComponent implements OnInit {
 
 
     }, error => {
-      console.log(error);
+      // console.log(error.error);
+      Swal.fire('Error', error.error.msg, 'error');
 
     });
   }
+
+
+
 
 
 
@@ -87,13 +91,12 @@ export class ProfileComponent implements OnInit {
     const url64 = reader.readAsDataURL( file );
 
     reader.onloadend = () => {
-      // console.log( reader.result);
       this.imgTmp = reader.result;
     }
 
-
-
   }
+
+
 
 
 
@@ -102,7 +105,7 @@ export class ProfileComponent implements OnInit {
     this.fileUploadService.updatePhoto( this.imgToUpload, 'usuarios', this.usuario.uid)
       .then( img => {
 
-        this.usuario.img = img
+        this.usuario.img = img;
         Swal.fire('Hecho', 'Foto de perfil actualizada', 'success');
       });
   }
