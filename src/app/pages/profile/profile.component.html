@@ -59,10 +59,19 @@
         </div>
         <h6 class="card-subtitle">Agrega una imagen de perfil</h6>
 
-        <img src="" alt="Imagen de perfil" />
+        <img *ngIf="!imgTmp" [src]="usuario.imgUrl" alt="Imagen de perfil" class="profile-img__preview"/>
+        <img [src]="imgTmp" class="profile-img__preview"/>
+        <input
+          type="file"
+          name="imgProfile"
+          id="imgProfile"
+          (change)="changeImgProfile($event.target.files[0])"
+        />
         <br />
         <button
           class="btn btn-success waves-effect waves-light m-r-10 mt-4 btn-block"
+          (click)="uploadImg()"
+          [disabled]="!imgToUpload"
         >
           <i class="fa fa-upload"></i>
           Actualizar imagen

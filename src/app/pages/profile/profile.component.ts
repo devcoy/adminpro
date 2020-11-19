@@ -5,6 +5,7 @@ import { Usuario } from '../../models/usuario.model';
 
 import Swal from 'sweetalert2';
 import { single, filter, map } from 'rxjs/operators';
+import { FileUploadService } from '../../services/file-upload.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,11 +17,16 @@ export class ProfileComponent implements OnInit {
 
   profileForm: FormGroup;
   usuario: Usuario;
-  erros: string[];
+  imgToUpload: File;
+  imgTmp: any = null;
+
+
+
 
   constructor(
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private fileUploadService: FileUploadService
   ) {
 
     this.usuario = userService.usuario;
@@ -68,6 +74,37 @@ export class ProfileComponent implements OnInit {
       console.log(error);
 
     });
+  }
+
+
+
+  changeImgProfile( file: File) {
+    this.imgToUpload = file;
+
+    if( !file ) { return this.imgTmp = null; }
+
+    const reader = new FileReader();
+    const url64 = reader.readAsDataURL( file );
+
+    reader.onloadend = () => {
+      // console.log( reader.result);
+      this.imgTmp = reader.result;
+    }
+
+
+
+  }
+
+
+
+
+  uploadImg() {
+    this.fileUploadService.updatePhoto( this.imgToUpload, 'usuarios', this.usuario.uid)
+      .then( img => {
+
+        this.usuario.img = img
+        Swal.fire('Hecho', 'Foto de perfil actualizada', 'success');
+      });
   }
 
 
