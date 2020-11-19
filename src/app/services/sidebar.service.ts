@@ -34,7 +34,7 @@ export class SidebarService {
     },
     {
       title: 'Mantenimiento',
-      icon: 'mdi mdi-folder',
+      icon: 'mdi mdi-folder-lock-open',
       submenu: [
         {
           title: 'Usuario',
