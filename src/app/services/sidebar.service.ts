@@ -33,12 +33,12 @@ export class SidebarService {
       ]
     },
     {
-      title: 'Mantenimiento',
+      title: 'Administración',
       icon: 'mdi mdi-folder-lock-open',
       submenu: [
         {
-          title: 'Usuario',
-          url: 'usuario',
+          title: 'Usuarios',
+          url: 'usuarios',
         },
         {
           title: 'Hospitales',

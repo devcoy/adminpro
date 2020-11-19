@@ -10,6 +10,7 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './admin/users/users.component';
 
 const routes: Routes = [
   {
@@ -23,10 +24,10 @@ const routes: Routes = [
       { path: 'progress', component: ProgressComponent, data: {title: 'Progressbar'} },
       { path: 'promesas', component: PromesasComponent, data: {title: 'Promesas'} },
       { path: 'rxjs', component: RxjsComponent, data: {title: 'Rxjs'}},
-      { path: 'perfil', component: ProfileComponent, data: { title: 'Perfil de usuario'} }
-
+      { path: 'perfil', component: ProfileComponent, data: { title: 'Perfil de usuario'} },
+      { path: 'usuarios', component: UsersComponent, data: { title: 'Administración de Usuarios'} }
     ]
-  },
+  }
 ];
 
 @NgModule({
