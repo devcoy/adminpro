@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { LoadUser } from '../interfaces/load-users.interfaces';
+
 import { Usuario } from '../models/usuario.model';
 
 declare const gapi: any;
@@ -48,6 +50,13 @@ export class UserService {
     return this.usuario.role || '';
   }
 
+  get headers(): object {
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    };
+  }
 
 
 
@@ -69,7 +78,6 @@ export class UserService {
 
     });
   }
-
 
 
 
@@ -172,7 +180,8 @@ export class UserService {
 
 
 
-  logout() {
+
+  logout(): any {
 
     localStorage.removeItem('token');
     this.auth2.signOut().then( () => {
@@ -187,5 +196,11 @@ export class UserService {
 
 
 
+
+  loadUsers( desde ) {
+
+    const url = `${  BASE_URL}/usuarios?desde=${ desde }`;
+    return this.http.get<LoadUser>( url, this.headers );
+  }
 
 }
