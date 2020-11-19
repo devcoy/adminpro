@@ -90,9 +90,8 @@ export class ProfileComponent implements OnInit {
     const reader = new FileReader();
     const url64 = reader.readAsDataURL( file );
 
-    reader.onloadend = () => {
-      this.imgTmp = reader.result;
-    }
+    reader.onloadend = () => this.imgTmp = reader.result;
+
 
   }
 
