@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { Usuario } from '../models/usuario.model';
 
 declare const gapi: any;
 const BASE_URL = environment.base_url;
@@ -19,6 +20,8 @@ const BASE_URL = environment.base_url;
 export class UserService {
 
   public auth2: any;
+  public usuario: Usuario;
+
 
 
   constructor(
@@ -27,8 +30,27 @@ export class UserService {
     private router: Router,
     private ngZone: NgZone
   ) {
+
     this.googleInit();
   }
+
+
+
+  get token(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  get uid(): string {
+    return this.usuario.uid || '';
+  }
+
+  get role(): string {
+    return this.usuario.role || '';
+  }
+
+
+
+
 
 
   googleInit() {
@@ -51,23 +73,35 @@ export class UserService {
 
 
 
-  validateToken(): Observable<boolean> {
 
-    const token = localStorage.getItem('token') || '';
+
+
+
+
+  validateToken(): Observable<boolean> {
 
     return this.http.get(`${BASE_URL}/auth/renew`, {
       headers: {
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
-      tap((resp: any) => {
+      map((resp: any) => {
+
+        // console.log(resp);
+        const { email, google, nombre, rol, img = '', uid } = resp.usuario;
+
+        this.usuario = new Usuario(nombre, email, '', img, google, rol, uid);
+
         localStorage.setItem('token', resp.token);
+        return true;
       }),
-      map(resp => true),
       catchError(error => of(false)) // atrapamos el error, es decir, si no es true, retornará un false
     );
 
   }
+
+
+
 
 
   createUser(formData: RegisterForm): Observable<any> {
@@ -82,6 +116,33 @@ export class UserService {
 
 
 
+
+
+
+
+
+
+  updateProfile( formData: { nombre: string, email: string, role: string } ): Observable<any> {
+
+    formData = {
+      ...formData,
+      role: this.role
+    };
+
+    return this.http.put(`${BASE_URL}/usuarios/${ this.uid }`, formData, {
+      headers: {
+        'x-token': this.token
+      }
+    });
+
+  }
+
+
+
+
+
+
+
   login(formData: LoginForm): Observable<any> {
 
     return this.http.post(`${BASE_URL}/auth`, formData)
@@ -91,6 +152,10 @@ export class UserService {
         })
       );
   }
+
+
+
+
 
 
 
@@ -119,5 +184,8 @@ export class UserService {
     });
 
   }
+
+
+
 
 }
