@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { Usuario } from '../../../models/usuario.model';
+import { SearcherService } from '../../../services/searcher.service';
 
 @Component({
   selector: 'app-users',
@@ -12,6 +13,7 @@ export class UsersComponent implements OnInit {
 
   totalUsers: number = 0;
   users: Usuario[] = [];
+  usersTmp: Usuario[] = [];
   from: number = 0;
   loading: boolean = true;
 
@@ -20,7 +22,8 @@ export class UsersComponent implements OnInit {
 
 
   constructor(
-    private userService: UserService
+    private userService: UserService,
+    private searcherService: SearcherService
   ) { }
 
 
@@ -42,8 +45,8 @@ export class UsersComponent implements OnInit {
       // console.log(resp);
       this.totalUsers = total;
       this.users = usuarios;
-
       this.loading = false;
+      this.usersTmp = usuarios;
 
     }, error => {
       console.log(error);
@@ -65,6 +68,23 @@ export class UsersComponent implements OnInit {
     }
 
     this.loadUsers();
+
+  }
+
+
+
+
+  search( term: string ) {
+
+    if( term.length === 0) {
+      return this.users = this.usersTmp;
+    }
+
+    this.searcherService.search( 'usuarios', term).subscribe( resp => {
+      this.users = resp;
+      // console.log( this.users );
+    });
+
 
   }
 
