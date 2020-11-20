@@ -200,7 +200,22 @@ export class UserService {
   loadUsers( desde ) {
 
     const url = `${  BASE_URL}/usuarios?desde=${ desde }`;
-    return this.http.get<LoadUser>( url, this.headers );
+
+    return this.http.get<LoadUser>( url, this.headers )
+      .pipe(
+        map( resp => {
+
+          const users = resp.usuarios
+            .map(
+              user => new Usuario( user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+            );
+
+          return {
+            total: resp.total,
+            usuarios: users
+          }
+        })
+      );
   }
 
 }

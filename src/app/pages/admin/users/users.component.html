@@ -28,7 +28,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Total de usuarios ({{ totalUsers }})  {{ from }}</h4>
+        <h4 class="card-title">Total de usuarios ({{ totalUsers }})</h4>
         <h6 class="card-subtitle">
           Usuarios registrados
         </h6>
@@ -36,17 +36,19 @@
           <table class="table table-bordered">
             <thead>
               <tr>
-                <th>Imagen</th>
+                <th class="w100">Imagen</th>
                 <th>Correo electrónico</th>
                 <th>Nombre</th>
-                <th>Rol</th>
-                <th>Auth</th>
-                <th class="text-nowrap">Acciones</th>
+                <th class="w100">Rol</th>
+                <th class="w100">Auth</th>
+                <th class="text-nowrap w100">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let user of users">
-                <td>xx</td>
+                <td class="text-center">
+                  <img [src]="user.imgUrl" alt="Imágen de perfil" class="profile-img-sm">
+                </td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.nombre }}</td>
                 <td>{{ user.role }}</td>
