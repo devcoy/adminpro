@@ -8,7 +8,7 @@
           name=""
           id=""
           placeholder="Buscar usuario..."
-          (keyup)="search( txtTerm.value )"
+          (keyup)="search(txtTerm.value)"
           #txtTerm
         />
       </div>
@@ -31,9 +31,7 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Total de usuarios ({{ totalUsers }})</h4>
-        <h6 class="card-subtitle">
-          Usuarios registrados
-        </h6>
+        <h6 class="card-subtitle">Usuarios registrados</h6>
         <div class="table-responsive">
           <table class="table table-bordered">
             <thead>
@@ -49,20 +47,37 @@
             <tbody>
               <tr *ngFor="let user of users">
                 <td class="text-center">
-                  <img [src]="user.imgUrl" alt="Imágen de perfil" class="profile-img-sm">
+                  <img
+                    [src]="user.imgUrl"
+                    alt="Imágen de perfil"
+                    class="profile-img-sm"
+                  />
                 </td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.nombre }}</td>
                 <td>{{ user.role }}</td>
                 <td>
-                  <span *ngIf="user.google" class="label label-danger">Google</span>
-                  <span *ngIf="!user.google" class="label label-info">Correo electrónico</span>
+                  <span *ngIf="user.google" class="label label-danger"
+                    >Google</span
+                  >
+                  <span *ngIf="!user.google" class="label label-info"
+                    >Correo electrónico</span
+                  >
                 </td>
                 <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Editar">
+                  <a
+                    href="#"
+                    data-toggle="tooltip"
+                    data-original-title="Editar"
+                  >
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Borrar">
+                  <a
+                    (click)="deleteUser(user)"
+                    class="cursor"
+                    data-toggle="tooltip"
+                    data-original-title="Borrar"
+                  >
                     <i class="fa fa-close text-danger"></i>
                   </a>
                 </td>
@@ -71,9 +86,13 @@
           </table>
 
           <div *ngIf="txtTerm.value.length === 0">
-            <button class="btn btn-secondary" (click)="changePage(-5)">Anterior</button>
+            <button class="btn btn-secondary" (click)="changePage(-5)">
+              Anterior
+            </button>
             &nbsp;
-            <button class="btn btn-secondary" (click)="changePage(5)">Siguiente</button>
+            <button class="btn btn-secondary" (click)="changePage(5)">
+              Siguiente
+            </button>
           </div>
         </div>
       </div>

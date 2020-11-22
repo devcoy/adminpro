@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+
 import { Usuario } from '../models/usuario.model';
 
 const BASE_URL = environment.base_url;
@@ -58,6 +60,33 @@ export class SearcherService {
           }
         })
       );
+  }
+
+
+
+
+
+  delteUser( user: Usuario ) {
+
+    console.log('eliminando...');
+
+    Swal.fire({
+      title: '¿Borrar usuario?',
+      text: `Esta a punto de borrar a ${ user.uid }`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrarlo'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
+      }
+    })
   }
 
 

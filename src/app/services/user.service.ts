@@ -218,4 +218,17 @@ export class UserService {
       );
   }
 
+
+
+
+
+  deleteUser( uid: string ): Observable<any> {
+
+    const endPoint = `${ BASE_URL }/usuarios/${ uid }`;
+
+
+    return this.http.delete( endPoint, this.headers );
+
+  }
+
 }
