@@ -25,3 +25,33 @@
   margin: 0 auto;
   padding: 30px 0;
 }
+
+.w100 {
+  width: 100px;
+}
+
+.w140 {
+  width: 140px;
+}
+
+.profile-img-sm {
+  border-radius: 100%;
+  width: 35px;
+}
+
+.hidden {
+  display: none;
+}
+
+/*******************
+/* Modal imagen
+*******************/
+#bg-modal-img {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+}

@@ -31,6 +31,24 @@ export class SidebarService {
           url: 'rxjs',
         }
       ]
+    },
+    {
+      title: 'Administración',
+      icon: 'mdi mdi-folder-lock-open',
+      submenu: [
+        {
+          title: 'Usuarios',
+          url: 'usuarios',
+        },
+        {
+          title: 'Hospitales',
+          url: 'hospitales',
+        },
+        {
+          title: 'Médicos',
+          url: 'medicos',
+        }
+      ]
     }
   ];
   constructor() { }

@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 
 import { RegisterForm } from '../interfaces/register-form.interface';
 import { LoginForm } from '../interfaces/login-form.interface';
+import { LoadUser } from '../interfaces/load-users.interfaces';
+
 import { Usuario } from '../models/usuario.model';
 
 declare const gapi: any;
@@ -48,6 +50,13 @@ export class UserService {
     return this.usuario.role || '';
   }
 
+  get headers(): object {
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    };
+  }
 
 
 
@@ -55,7 +64,7 @@ export class UserService {
 
   googleInit() {
 
-    return new Promise( resolve => {
+    return new Promise(resolve => {
 
       gapi.load('auth2', () => {
 
@@ -69,7 +78,6 @@ export class UserService {
 
     });
   }
-
 
 
 
@@ -122,18 +130,14 @@ export class UserService {
 
 
 
-  updateProfile( formData: { nombre: string, email: string, role: string } ): Observable<any> {
+  updateProfile(formData: { nombre: string, email: string, role: string }): Observable<any> {
 
     formData = {
       ...formData,
       role: this.role
     };
 
-    return this.http.put(`${BASE_URL}/usuarios/${ this.uid }`, formData, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    return this.http.put(`${BASE_URL}/usuarios/${this.uid}`, formData, this.headers);
 
   }
 
@@ -172,12 +176,13 @@ export class UserService {
 
 
 
-  logout() {
+
+  logout(): any {
 
     localStorage.removeItem('token');
-    this.auth2.signOut().then( () => {
+    this.auth2.signOut().then(() => {
 
-      this.ngZone.run( () => {
+      this.ngZone.run(() => {
 
         this.router.navigateByUrl('/login');
       });
@@ -187,5 +192,48 @@ export class UserService {
 
 
 
+
+  loadUsers(desde) {
+
+    const url = `${BASE_URL}/usuarios?desde=${desde}`;
+
+    return this.http.get<LoadUser>(url, this.headers)
+      .pipe(
+        map(resp => {
+
+          const users = resp.usuarios
+            .map(
+              user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+            );
+
+          return {
+            total: resp.total,
+            usuarios: users
+          }
+        })
+      );
+  }
+
+
+
+
+
+  deleteUser(uid: string): Observable<any> {
+
+    const endPoint = `${BASE_URL}/usuarios/${uid}`;
+
+
+    return this.http.delete(endPoint, this.headers);
+
+  }
+
+
+  saveUser(user: Usuario): Observable<any> {
+
+    return this.http.put(`${BASE_URL}/usuarios/${ user.uid }`, user, this.headers);
+
+
+
+  }
 
 }
