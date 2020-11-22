@@ -127,4 +127,17 @@ export class UsersComponent implements OnInit {
     });
   }
 
+
+  changeRole( user: Usuario ) {
+
+    this.userService.saveUser( user ).subscribe( resp => {
+
+      console.log(resp);
+
+    }, error => {
+      console.log('[user.component] Error al cambiar el rol del usuario');
+      console.log(error);
+    });
+  }
+
 }

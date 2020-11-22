@@ -64,7 +64,7 @@ export class UserService {
 
   googleInit() {
 
-    return new Promise( resolve => {
+    return new Promise(resolve => {
 
       gapi.load('auth2', () => {
 
@@ -130,18 +130,14 @@ export class UserService {
 
 
 
-  updateProfile( formData: { nombre: string, email: string, role: string } ): Observable<any> {
+  updateProfile(formData: { nombre: string, email: string, role: string }): Observable<any> {
 
     formData = {
       ...formData,
       role: this.role
     };
 
-    return this.http.put(`${BASE_URL}/usuarios/${ this.uid }`, formData, {
-      headers: {
-        'x-token': this.token
-      }
-    });
+    return this.http.put(`${BASE_URL}/usuarios/${this.uid}`, formData, this.headers);
 
   }
 
@@ -184,9 +180,9 @@ export class UserService {
   logout(): any {
 
     localStorage.removeItem('token');
-    this.auth2.signOut().then( () => {
+    this.auth2.signOut().then(() => {
 
-      this.ngZone.run( () => {
+      this.ngZone.run(() => {
 
         this.router.navigateByUrl('/login');
       });
@@ -197,17 +193,17 @@ export class UserService {
 
 
 
-  loadUsers( desde ) {
+  loadUsers(desde) {
 
-    const url = `${  BASE_URL}/usuarios?desde=${ desde }`;
+    const url = `${BASE_URL}/usuarios?desde=${desde}`;
 
-    return this.http.get<LoadUser>( url, this.headers )
+    return this.http.get<LoadUser>(url, this.headers)
       .pipe(
-        map( resp => {
+        map(resp => {
 
           const users = resp.usuarios
             .map(
-              user => new Usuario( user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+              user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
             );
 
           return {
@@ -222,12 +218,21 @@ export class UserService {
 
 
 
-  deleteUser( uid: string ): Observable<any> {
+  deleteUser(uid: string): Observable<any> {
 
-    const endPoint = `${ BASE_URL }/usuarios/${ uid }`;
+    const endPoint = `${BASE_URL}/usuarios/${uid}`;
 
 
-    return this.http.delete( endPoint, this.headers );
+    return this.http.delete(endPoint, this.headers);
+
+  }
+
+
+  saveUser(user: Usuario) {
+
+    return this.http.put(`${BASE_URL}/usuarios/${ user.uid }`, user, this.headers);
+
+
 
   }
 
