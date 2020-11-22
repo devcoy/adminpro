@@ -38,3 +38,20 @@
   border-radius: 100%;
   width: 35px;
 }
+
+.hidden {
+  display: none;
+}
+
+/*******************
+/* Modal imagen
+*******************/
+#bg-modal-img {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+}

@@ -51,6 +51,7 @@
                     [src]="user.imgUrl"
                     alt="Imágen de perfil"
                     class="profile-img-sm"
+                    (click)="openImgModal( user )"
                   />
                 </td>
                 <td>{{ user.email }}</td>

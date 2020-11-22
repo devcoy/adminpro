@@ -228,7 +228,7 @@ export class UserService {
   }
 
 
-  saveUser(user: Usuario) {
+  saveUser(user: Usuario): Observable<any> {
 
     return this.http.put(`${BASE_URL}/usuarios/${ user.uid }`, user, this.headers);
 

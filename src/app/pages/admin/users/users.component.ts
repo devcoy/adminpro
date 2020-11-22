@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../../services/user.service';
-import { Usuario } from '../../../models/usuario.model';
-import { SearcherService } from '../../../services/searcher.service';
 import Swal from 'sweetalert2';
+
+import { ModalImgService } from '../../../services/modal-img.service';
+import { SearcherService } from '../../../services/searcher.service';
+import { UserService } from '../../../services/user.service';
+
+import { Usuario } from '../../../models/usuario.model';
 
 @Component({
   selector: 'app-users',
@@ -24,7 +27,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private searcherService: SearcherService
+    private searcherService: SearcherService,
+    private modalImgService: ModalImgService
   ) { }
 
 
@@ -128,6 +132,8 @@ export class UsersComponent implements OnInit {
   }
 
 
+
+
   changeRole( user: Usuario ) {
 
     this.userService.saveUser( user ).subscribe( resp => {
@@ -139,5 +145,17 @@ export class UsersComponent implements OnInit {
       console.log(error);
     });
   }
+
+
+
+  openImgModal( user: Usuario) {
+
+    // console.log('[user.component] Abrir el modal de la imagen');
+    console.log(user);
+    this.modalImgService.openModal();
+
+  }
+
+
 
 }
