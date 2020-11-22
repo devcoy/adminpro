@@ -59,7 +59,7 @@ export class ProfileComponent implements OnInit {
 
   updateProfile() {
 
-    // console.log('Tratando de actualizar usuario');
+
     this.userService.updateProfile( this.profileForm.value ).subscribe( resp => {
 
       const { nombre, email } = resp.usuarioActualizado;
@@ -91,7 +91,6 @@ export class ProfileComponent implements OnInit {
     const url64 = reader.readAsDataURL( file );
 
     reader.onloadend = () => this.imgTmp = reader.result;
-
 
   }
 

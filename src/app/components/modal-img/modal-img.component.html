@@ -26,14 +26,33 @@
           </button>
         </div>
         <div class="modal-body">
-          <h3>Seleccione una imagen</h3>
+          <p>Seleccione una imagen</p>
+
+          <img
+            *ngIf="!imgTmp"
+            [src]="modalImgService.currentImg"
+            alt="Imagen de perfil"
+            class="profile-img__preview"
+          />
+          <img [src]="imgTmp" class="profile-img__preview" />
+          <input
+            type="file"
+            name="imgProfile"
+            id="imgProfile"
+            (change)="changeImgProfile($event.target.files[0])"
+          />
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal"
+            (click)="closeModal()"
+          >
             Cancelar
           </button>
-          <button type="button" class="btn btn-primary">
-            Actualizar foto de perfil
+          <button type="button" class="btn btn-primary" (click)="uploadImg()">
+            Actualizar imagen
           </button>
         </div>
       </div>

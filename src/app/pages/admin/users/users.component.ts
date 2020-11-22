@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import Swal from 'sweetalert2';
 
 import { ModalImgService } from '../../../services/modal-img.service';
@@ -6,6 +6,8 @@ import { SearcherService } from '../../../services/searcher.service';
 import { UserService } from '../../../services/user.service';
 
 import { Usuario } from '../../../models/usuario.model';
+import { delay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -13,11 +15,13 @@ import { Usuario } from '../../../models/usuario.model';
   styles: [
   ]
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy{
 
   totalUsers: number = 0;
   users: Usuario[] = [];
   usersTmp: Usuario[] = [];
+
+  imgSubs: Subscription;
   from: number = 0;
   loading: boolean = true;
 
@@ -31,6 +35,10 @@ export class UsersComponent implements OnInit {
     private modalImgService: ModalImgService
   ) { }
 
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
+  }
+
 
 
 
@@ -38,6 +46,12 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
 
     this.loadUsers();
+
+    this.imgSubs = this.modalImgService.newImg
+      .pipe(
+        delay(100)
+      )
+      .subscribe( img => this.loadUsers() );
 
   }
 
@@ -138,10 +152,10 @@ export class UsersComponent implements OnInit {
 
     this.userService.saveUser( user ).subscribe( resp => {
 
-      console.log(resp);
+      // console.log(resp);
 
     }, error => {
-      console.log('[user.component] Error al cambiar el rol del usuario');
+      console.log('Error al cambiar el rol del usuario');
       console.log(error);
     });
   }
@@ -150,9 +164,9 @@ export class UsersComponent implements OnInit {
 
   openImgModal( user: Usuario) {
 
-    // console.log('[user.component] Abrir el modal de la imagen');
-    console.log(user);
-    this.modalImgService.openModal();
+    // console.log('Abrir el modal de la imagen');
+    // console.log(user);
+    this.modalImgService.openModal( 'usuarios', user.uid, user.img );
 
   }
 
