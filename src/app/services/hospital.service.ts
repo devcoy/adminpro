@@ -42,4 +42,31 @@ export class HospitalService {
       );
   }
 
+
+
+  createHospital( nombre: string ) {
+
+    const url = `${BASE_URL}/hospitales`;
+
+    return this.http.post(url, { nombre }, this.headers);
+  }
+
+
+
+  updateHospital( _id: string, nombre: string ) {
+
+    const url = `${BASE_URL}/hospitales/${ _id }`;
+
+    return this.http.put(url, { nombre }, this.headers);
+  }
+
+
+
+  deleteHospital( _id: string ) {
+
+    const url = `${BASE_URL}/hospitales/${ _id }`;
+
+    return this.http.put(url, this.headers);
+  }
+
 }
