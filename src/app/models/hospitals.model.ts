@@ -1,6 +1,6 @@
 interface _HospitalUser {
 
-    name: string;
+    nombre: string;
     _id: string;
     img: string;
 }
@@ -9,10 +9,10 @@ interface _HospitalUser {
 export class Hospitals {
 
     constructor(
-        public name: string,
+        public nombre: string,
         public _id?: string,
         public img?: string,
-        public user?: _HospitalUser,
+        public usuario?: _HospitalUser,
 
     ) {}
 }
