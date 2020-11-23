@@ -98,7 +98,7 @@ export class HospitalsComponent implements OnInit {
 
   async openSweetAlert() {
 
-    const { value } = await Swal.fire<string>({
+    const { value = '' } = await Swal.fire<string>({
       title: 'Crear Hospital',
       input: 'text',
       inputLabel: 'Nombre del Hospital',
