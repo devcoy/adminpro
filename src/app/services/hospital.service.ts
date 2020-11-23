@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
-import { Hospitals } from '../models/hospitals.model';
+import { Hospital } from '../models/hospitals.model';
+import Swal from 'sweetalert2';
 
 const BASE_URL = environment.base_url;
 
@@ -38,7 +39,7 @@ export class HospitalService {
 
     return this.http.get(url, this.headers)
       .pipe(
-        map( (resp: { ok: boolean, hospitales: Hospitals[]}) => resp.hospitales )
+        map( (resp: { ok: boolean, hospitales: Hospital[]}) => resp.hospitales )
       );
   }
 
@@ -66,7 +67,8 @@ export class HospitalService {
 
     const url = `${BASE_URL}/hospitales/${ _id }`;
 
-    return this.http.put(url, this.headers);
+    return this.http.delete(url, this.headers);
   }
+
 
 }

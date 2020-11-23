@@ -6,7 +6,7 @@ interface _HospitalUser {
 }
 
 
-export class Hospitals {
+export class Hospital {
 
     constructor(
         public nombre: string,
