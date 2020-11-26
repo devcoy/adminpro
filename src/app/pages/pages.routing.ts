@@ -13,6 +13,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './admin/users/users.component';
 import { HospitalsComponent } from './admin/hospitals/hospitals.component';
 import { DoctorsComponent } from './admin/doctors/doctors.component';
+import { DoctorComponent } from './admin/doctors/doctor.component';
 
 const routes: Routes = [
   {
@@ -29,7 +30,8 @@ const routes: Routes = [
       { path: 'perfil', component: ProfileComponent, data: { title: 'Perfil de usuario'} },
       { path: 'usuarios', component: UsersComponent, data: { title: 'Administración de Usuarios'} },
       { path: 'hospitales', component: HospitalsComponent, data: { title: 'Administración de Hospitales'} },
-      { path: 'medicos', component: DoctorsComponent, data: { title: 'Administración de Médicos'} }
+      { path: 'medicos', component: DoctorsComponent, data: { title: 'Administración de Médicos'} },
+      { path: 'medico/:id', component: DoctorComponent, data: { title: 'Administración de Médico'} }
     ]
   }
 ];
