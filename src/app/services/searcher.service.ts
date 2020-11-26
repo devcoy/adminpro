@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 import { Usuario } from '../models/usuario.model';
+import { Hospital } from '../models/hospitals.model';
 
 const BASE_URL = environment.base_url;
 
@@ -33,25 +34,36 @@ export class SearcherService {
   }
 
 
-  private transformUser( results: any[]): Usuario[] {
-
+  private transformUser(results: any[]): Usuario[] {
     return results.map(
-      user => new Usuario( user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
+      user => new Usuario(user.nombre, user.email, '', user.img, user.google, user.role, user.uid)
     );
   }
 
 
-  search( type: 'usuarios'|'medicos'|'hospitales', term: string) {
 
-    const url = `${  BASE_URL}/todo/coleccion/${ type }/${ term }`;
+  private transformHospital(results: any[]): Hospital[] {
+    return results;
+  }
 
-    return this.http.get<any[]>( url, this.headers )
+
+
+
+  search(type: 'usuarios' | 'medicos' | 'hospitales', term: string) {
+
+    const url = `${BASE_URL}/todo/coleccion/${type}/${term}`;
+
+    return this.http.get<any[]>(url, this.headers)
       .pipe(
-        map( (resp: any) => {
+        map((resp: any) => {
           // resp.resultados
           switch (type) {
             case 'usuarios':
-              return this.transformUser( resp.resultados );
+              return this.transformUser(resp.resultados);
+              break;
+
+            case 'hospitales':
+              return this.transformHospital(resp.resultados);
 
               break;
 
@@ -66,13 +78,13 @@ export class SearcherService {
 
 
 
-  delteUser( user: Usuario ) {
+  delteUser(user: Usuario) {
 
     console.log('eliminando...');
 
     Swal.fire({
       title: '¿Borrar usuario?',
-      text: `Esta a punto de borrar a ${ user.uid }`,
+      text: `Esta a punto de borrar a ${user.uid}`,
       icon: 'question',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

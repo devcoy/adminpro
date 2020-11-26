@@ -99,7 +99,7 @@ export class UsersComponent implements OnInit, OnDestroy{
       return this.users = this.usersTmp;
     }
 
-    this.searcherService.search( 'usuarios', term).subscribe( resp => {
+    this.searcherService.search( 'usuarios', term).subscribe( (resp: Usuario[]) => {
       this.users = resp;
       // console.log( this.users );
     });

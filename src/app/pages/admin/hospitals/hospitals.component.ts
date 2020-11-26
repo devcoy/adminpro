@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { ModalImgService } from '../../../services/modal-img.service';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { SearcherService } from '../../../services/searcher.service';
 
 @Component({
   selector: 'app-hospitals',
@@ -15,14 +16,17 @@ import { delay } from 'rxjs/operators';
 export class HospitalsComponent implements OnInit {
 
   hospitals: Hospital[];
+  hospitalsTmp: Hospital[];
   loading: boolean = true;
   private imgSubs: Subscription;
 
 
 
+
   constructor(
     private hospitalService: HospitalService,
-    private modalImgService: ModalImgService
+    private modalImgService: ModalImgService,
+    private searcherService: SearcherService
   ) { }
 
 
@@ -47,6 +51,7 @@ export class HospitalsComponent implements OnInit {
 
       // console.log(hospitals);
       this.hospitals = hospitals;
+      this.hospitalsTmp = hospitals;
 
       this.loading = false;
     }, error => {
@@ -124,11 +129,27 @@ export class HospitalsComponent implements OnInit {
 
 
 
-
   openImgModal( hospital: Hospital ) {
 
     this.modalImgService.openModal( 'hospitales', hospital._id, hospital.img );
 
   }
+
+
+
+  search( term: string ) {
+
+    if( term.length === 0) {
+      return this.hospitals = this.hospitalsTmp;
+    }
+
+    console.log(term);
+
+    this.searcherService.search( 'hospitales', term).subscribe( ( resp: Hospital[] ) => {
+      // console.log(resp);
+      this.hospitals = resp;
+    });
+  }
+
 
 }

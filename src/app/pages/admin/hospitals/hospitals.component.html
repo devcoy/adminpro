@@ -8,6 +8,8 @@
           name=""
           id=""
           placeholder="Buscar Hospital..."
+          (keyup)="search(textTerm.value)"
+          #textTerm
         />
       </div>
     </div>
