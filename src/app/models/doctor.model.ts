@@ -8,7 +8,7 @@ interface _DoctorlUser {
 }
 
 
-export class Doctors {
+export class Doctor {
 
     constructor(
         public nombre: string,
