@@ -3,6 +3,9 @@ import Swal from 'sweetalert2';
 import { Doctor } from '../../../models/doctor.model';
 import { DoctorsService } from '../../../services/doctor.service';
 import { SearcherService } from '../../../services/searcher.service';
+import { ModalImgService } from '../../../services/modal-img.service';
+import { delay } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-doctors',
@@ -15,16 +18,24 @@ export class DoctorsComponent implements OnInit {
   doctors: Doctor[];
   doctorsTmp: Doctor[];
   loading: boolean = false;
+  imgSubs: Subscription;
 
 
   constructor(
     private doctorService: DoctorsService,
-    private searcherService: SearcherService
+    private searcherService: SearcherService,
+    private modalImgService: ModalImgService
   ) { }
 
   ngOnInit(): void {
 
     this.loadDoctors();
+
+    this.imgSubs = this.modalImgService.newImg
+      .pipe(
+        delay(100)
+      )
+      .subscribe( img => this.loadDoctors() );
 
   }
 
@@ -46,6 +57,15 @@ export class DoctorsComponent implements OnInit {
       console.log('[Error al cargar los médicos]', error);
 
     });
+
+  }
+
+
+
+
+  openImgModal( doctor: Doctor ) {
+
+    this.modalImgService.openModal( 'medicos', doctor._id, doctor.img );
 
   }
 

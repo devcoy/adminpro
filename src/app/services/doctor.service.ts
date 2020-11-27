@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Doctor } from '../models/doctor.model';
 import { map } from 'rxjs/operators';
+
+import { Doctor } from '../models/doctor.model';
 
 const BASE_URL = environment.base_url;
 
@@ -40,6 +41,31 @@ export class DoctorsService {
       .pipe(
         map( (resp: { ok: boolean, medicos: Doctor[]}) => resp.medicos )
       );
+  }
+
+
+
+
+  createDoctor( doctor:Doctor ) {
+
+    const url = `${BASE_URL}/medicos`;
+
+    // const payload = {
+    //   nombre: doctor.nombre,
+    //   hospital: 'ABC'
+    // };
+
+    return this.http.post(url, doctor, this.headers);
+  }
+
+
+
+
+  updateHospital( doctor: Doctor ) {
+
+    const url = `${BASE_URL}/medicos/${ doctor._id }`;
+
+    return this.http.put(url, doctor, this.headers);
   }
 
 

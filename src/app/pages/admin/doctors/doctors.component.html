@@ -48,6 +48,7 @@
                     [src]="doctor.img | image: 'medicos'"
                     [alt]="doctor.nombre"
                     class="profile-img-sm cursor"
+                    (click)="openImgModal(doctor)"
                   />
                 </td>
                 <td>{{ doctor.nombre }}</td>
