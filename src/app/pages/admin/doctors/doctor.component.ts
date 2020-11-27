@@ -24,8 +24,8 @@ export class DoctorComponent implements OnInit {
   ngOnInit(): void {
 
     this.doctorForm = this.fb.group({
-      nombre: [ 'Jorge', Validators.required],
-      hospital: [ '' ]
+      nombre: [ 'Jorge', Validators.required ],
+      hospital: [ '', Validators.required ]
     });
 
 
@@ -40,9 +40,8 @@ export class DoctorComponent implements OnInit {
 
     this.hospitalService.loadHospitals().subscribe( ( hospitals: Hospital[] ) => {
 
-      console.log(hospitals);
+      // console.log(hospitals);
       this.hospitals = hospitals;
-
 
     }, error => {
       console.log('[Error al intentar cargar los hospitales]', error);

@@ -50,7 +50,7 @@
                   </option>
                   <option
                     *ngFor="let hospital of hospitals"
-                    value="hospital._id"
+                    [value]="hospital._id"
                   >
                     {{ hospital.nombre }}
                   </option>
