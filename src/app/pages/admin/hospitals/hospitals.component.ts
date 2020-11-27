@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { HospitalService } from '../../../services/hospital.service';
-import { Hospital } from '../../../models/hospitals.model';
-import Swal from 'sweetalert2';
-import { ModalImgService } from '../../../services/modal-img.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import Swal from 'sweetalert2';
+
+import { Hospital } from '../../../models/hospitals.model';
+
+import { HospitalService } from '../../../services/hospital.service';
+import { ModalImgService } from '../../../services/modal-img.service';
 import { SearcherService } from '../../../services/searcher.service';
 
 @Component({
@@ -13,7 +15,7 @@ import { SearcherService } from '../../../services/searcher.service';
   styles: [
   ]
 })
-export class HospitalsComponent implements OnInit {
+export class HospitalsComponent implements OnInit, OnDestroy {
 
   hospitals: Hospital[];
   hospitalsTmp: Hospital[];
@@ -39,6 +41,11 @@ export class HospitalsComponent implements OnInit {
         delay(100)
       )
       .subscribe( img => this.loadHospitals() );
+  }
+
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
   }
 
 

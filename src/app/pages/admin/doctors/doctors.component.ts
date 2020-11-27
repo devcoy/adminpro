@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import Swal from 'sweetalert2';
 import { Doctor } from '../../../models/doctor.model';
 import { DoctorsService } from '../../../services/doctor.service';
@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
   styles: [
   ]
 })
-export class DoctorsComponent implements OnInit {
+export class DoctorsComponent implements OnInit, OnDestroy {
 
   doctors: Doctor[];
   doctorsTmp: Doctor[];
@@ -37,6 +37,11 @@ export class DoctorsComponent implements OnInit {
       )
       .subscribe( img => this.loadDoctors() );
 
+  }
+
+
+  ngOnDestroy(): void {
+    this.imgSubs.unsubscribe();
   }
 
 
