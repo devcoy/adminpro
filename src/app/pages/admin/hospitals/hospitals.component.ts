@@ -143,7 +143,7 @@ export class HospitalsComponent implements OnInit {
       return this.hospitals = this.hospitalsTmp;
     }
 
-    console.log(term);
+    // console.log(term);
 
     this.searcherService.search( 'hospitales', term).subscribe( ( resp: Hospital[] ) => {
       // console.log(resp);

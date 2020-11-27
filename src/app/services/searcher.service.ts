@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 
 import { Usuario } from '../models/usuario.model';
 import { Hospital } from '../models/hospitals.model';
+import { Doctor } from '../models/doctor.model';
 
 const BASE_URL = environment.base_url;
 
@@ -48,6 +49,12 @@ export class SearcherService {
 
 
 
+  private transformDoctor(results: any[]): Doctor[] {
+    return results;
+  }
+
+
+
 
   search(type: 'usuarios' | 'medicos' | 'hospitales', term: string) {
 
@@ -64,7 +71,10 @@ export class SearcherService {
 
             case 'hospitales':
               return this.transformHospital(resp.resultados);
+              break;
 
+            case 'medicos':
+              return this.transformHospital(resp.resultados);
               break;
 
             default:

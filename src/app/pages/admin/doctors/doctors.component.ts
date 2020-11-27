@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Doctor } from '../../../models/doctor.model';
 import { DoctorsService } from '../../../services/doctor.service';
+import { SearcherService } from '../../../services/searcher.service';
 
 @Component({
   selector: 'app-doctors',
@@ -17,7 +18,8 @@ export class DoctorsComponent implements OnInit {
 
 
   constructor(
-    private doctorService: DoctorsService
+    private doctorService: DoctorsService,
+    private searcherService: SearcherService
   ) { }
 
   ngOnInit(): void {
@@ -81,6 +83,22 @@ export class DoctorsComponent implements OnInit {
           console.log(error);
         });
       }
+    });
+  }
+
+
+
+
+  search( term: string ) {
+
+    if( term.length === 0) {
+      return this.doctors = this.doctorsTmp;
+    }
+    // console.log(term);
+
+    this.searcherService.search( 'medicos', term).subscribe( ( resp: Doctor[] ) => {
+      // console.log(resp);
+      this.doctors = resp;
     });
   }
 
