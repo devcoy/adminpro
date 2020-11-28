@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { HospitalService } from '../../../services/hospital.service';
 import { Hospital } from '../../../models/hospitals.model';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class DoctorComponent implements OnInit {
 
   doctorForm: FormGroup;
   hospitals: Hospital[];
+  hospitalSelected: Hospital;
 
   constructor(
     private fb: FormBuilder,
@@ -28,8 +30,14 @@ export class DoctorComponent implements OnInit {
       hospital: [ '', Validators.required ]
     });
 
-
     this.loadHospitals();
+
+
+    this.doctorForm.get('hospital').valueChanges.subscribe( hospitalId => {
+
+      this.hospitalSelected = this.hospitals.find( h => h._id === hospitalId );
+      console.log(this.hospitalSelected);
+    });
 
   }
 
