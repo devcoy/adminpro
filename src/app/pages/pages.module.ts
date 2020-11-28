@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from './../components/components.module';
 import { SharedModule } from '../shared/shared.module';
 
+import { PipesModule } from '../pipes/pipes.module';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { Graphics1Component } from './graphics1/graphics1.component';
@@ -15,6 +17,9 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
 import { UsersComponent } from './admin/users/users.component';
+import { HospitalsComponent } from './admin/hospitals/hospitals.component';
+import { DoctorsComponent } from './admin/doctors/doctors.component';
+import { DoctorComponent } from './admin/doctors/doctor.component';
 
 
 @NgModule({
@@ -27,7 +32,10 @@ import { UsersComponent } from './admin/users/users.component';
     PromesasComponent,
     RxjsComponent,
     ProfileComponent,
-    UsersComponent
+    UsersComponent,
+    HospitalsComponent,
+    DoctorsComponent,
+    DoctorComponent
   ],
   imports: [
     CommonModule,
@@ -35,7 +43,8 @@ import { UsersComponent } from './admin/users/users.component';
     SharedModule,
     RouterModule,
     ComponentsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PipesModule
   ],
   exports: [
     DashboardComponent,
