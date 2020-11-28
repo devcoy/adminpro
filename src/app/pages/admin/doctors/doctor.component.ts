@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { Hospital } from '../../../models/hospitals.model';
@@ -30,11 +30,18 @@ export class DoctorComponent implements OnInit {
     private fb: FormBuilder,
     private hospitalService: HospitalService,
     private doctorsService: DoctorsService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
 
   ngOnInit(): void {
+
+    this.activatedRoute.params.subscribe( ( { id } ) => {
+      // console.log(id);
+      this.loadDoctor( id );
+    });
+
 
     this.doctorForm = this.fb.group({
       nombre: [ '', Validators.required ],
@@ -47,6 +54,32 @@ export class DoctorComponent implements OnInit {
 
       this.hospitalSelected = this.hospitals.find( h => h._id === hospitalId );
     });
+
+  }
+
+
+
+
+  loadDoctor( id: string ) {
+    if( id === 'nuevo' ) {
+      return;
+    }
+
+    this.doctorsService.getDoctorById( id ).subscribe( doctor => {
+
+
+      if( !doctor ) {
+        return this.router.navigateByUrl(`/dashboard/medicos`);
+      }
+
+      const { nombre, hospital: { _id } } = doctor;
+      this.doctorSelected = doctor;
+      this.doctorForm.setValue({ nombre, hospital: _id });
+
+    }, error => {
+      console.log('[Error al obetner el médico]', error);
+    });
+
 
   }
 
@@ -73,15 +106,32 @@ export class DoctorComponent implements OnInit {
 
     const { nombre } = this.doctorForm.value;
 
-    this.doctorsService.createDoctor( this.doctorForm.value ).subscribe( ( resp: any ) => {
+    if( this.doctorSelected ) {
+      const data = {
+        ...this.doctorForm.value,
+        _id: this.doctorSelected._id
+      };
 
-      // console.log(resp);
-      Swal.fire('Hecho', `Se creo el médico <b>${ nombre }</b> correctamente`, 'success');
-      this.router.navigateByUrl(`/dashboard/medico/${ resp.medico._id }`);
+      this.doctorsService.updateHospital( data ).subscribe( ( resp: any ) => {
+        Swal.fire('Hecho', `Se actualizo el médico <b>${ nombre }</b> correctamente`, 'success');
 
-    }, error => {
-      console.log('[Error al crear un nuevo médico]', error);
-    });
+      }, error => {
+        console.log('[Error al actualizar el médico]', error);
+      });
+
+
+    } else {
+
+      this.doctorsService.createDoctor( this.doctorForm.value ).subscribe( ( resp: any ) => {
+        Swal.fire('Hecho', `Se creo el médico <b>${ nombre }</b> correctamente`, 'success');
+        this.router.navigateByUrl(`/dashboard/medico/${ resp.medico._id }`);
+
+      }, error => {
+        console.log('[Error al crear un nuevo médico]', error);
+
+      });
+
+    }
 
 
   }
