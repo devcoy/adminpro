@@ -9,6 +9,7 @@ import { Doctor } from '../../../models/doctor.model';
 import { HospitalService } from '../../../services/hospital.service';
 import { DoctorsService } from '../../../services/doctor.service';
 import Swal from 'sweetalert2';
+import { delay } from 'rxjs/operators';
 
 
 @Component({
@@ -38,7 +39,6 @@ export class DoctorComponent implements OnInit {
   ngOnInit(): void {
 
     this.activatedRoute.params.subscribe( ( { id } ) => {
-      // console.log(id);
       this.loadDoctor( id );
     });
 
@@ -51,8 +51,8 @@ export class DoctorComponent implements OnInit {
     this.loadHospitals();
 
     this.doctorForm.get('hospital').valueChanges.subscribe( hospitalId => {
-
       this.hospitalSelected = this.hospitals.find( h => h._id === hospitalId );
+      console.log('tick');
     });
 
   }
@@ -65,7 +65,11 @@ export class DoctorComponent implements OnInit {
       return;
     }
 
-    this.doctorsService.getDoctorById( id ).subscribe( doctor => {
+    this.doctorsService.getDoctorById( id )
+      .pipe(
+        delay(100)
+      )
+      .subscribe( doctor => {
 
 
       if( !doctor ) {
