@@ -61,6 +61,14 @@ export class UserService {
 
 
 
+  saveDataInLocalStrg(token, menu) {
+    localStorage.setItem( 'token', token );
+    localStorage.setItem( 'menu', JSON.stringify(menu) );
+  }
+
+
+
+
 
   googleInit() {
 
@@ -100,7 +108,8 @@ export class UserService {
 
         this.usuario = new Usuario(nombre, email, '', img, google, rol, uid);
 
-        localStorage.setItem('token', resp.token);
+        this.saveDataInLocalStrg( resp.token, resp.menu );
+
         return true;
       }),
       catchError(error => of(false)) // atrapamos el error, es decir, si no es true, retornará un false
@@ -117,7 +126,7 @@ export class UserService {
     return this.http.post(`${BASE_URL}/usuarios`, formData)
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token);
+          this.saveDataInLocalStrg( resp.token, resp.menu );
         })
       );
   }
@@ -152,7 +161,7 @@ export class UserService {
     return this.http.post(`${BASE_URL}/auth`, formData)
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token);
+          this.saveDataInLocalStrg( resp.token, resp.menu );
         })
       );
   }
@@ -169,7 +178,7 @@ export class UserService {
     return this.http.post(`${BASE_URL}/auth/google`, { token })
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token);
+          this.saveDataInLocalStrg( resp.token, resp.menu );
         })
       );
   }
@@ -180,6 +189,9 @@ export class UserService {
   logout(): any {
 
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
+
+
     this.auth2.signOut().then(() => {
 
       this.ngZone.run(() => {
