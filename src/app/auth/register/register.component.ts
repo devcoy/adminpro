@@ -17,7 +17,6 @@ export class RegisterComponent {
     public formSubmitted = false;
 
     public registerForm = this.fb.group({
-
         nombre: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(8)]],
@@ -38,7 +37,6 @@ export class RegisterComponent {
 
 
 
-
     createUser(): void {
 
         this.formSubmitted = true;
@@ -51,18 +49,13 @@ export class RegisterComponent {
         this.userService.createUser(this.registerForm.value)
             .subscribe(
                 resp => {
-
-                    // Navegar al Dashboard
                     this.router.navigateByUrl('/');
                 },
                 (err) => {
-
-                    // Si hay un error
                     Swal.fire('Error', err.error.msg, 'error');
 
                 });
     }
-
 
 
 
@@ -78,7 +71,6 @@ export class RegisterComponent {
 
 
 
-
     passwordNotValid(): boolean {
 
         const password1 = this.registerForm.get('password').value;
@@ -89,9 +81,7 @@ export class RegisterComponent {
         } else {
             return false;
         }
-
     }
-
 
 
 
@@ -99,6 +89,7 @@ export class RegisterComponent {
     acceptTerms(): boolean {
         return !this.registerForm.get('terms').value && this.formSubmitted;
     }
+
 
 
     passwordEquals(password1Name: string, password2Name: string) {
@@ -109,15 +100,13 @@ export class RegisterComponent {
             const password2Control = formGroup.get(password2Name);
 
             if (password1Control.value === password2Control.value) {
-
                 password2Control.setErrors(null);
 
             } else {
-
                 password2Control.setErrors({ notEquals: true });
             }
-
-        }
+        };
 
     }
+
 }
