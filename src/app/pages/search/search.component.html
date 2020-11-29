@@ -84,7 +84,11 @@
                   class="profile-img-sm"
                 />
               </td>
-              <td>{{ doctor.nombre }}</td>
+              <td>
+                <a [routerLink]="['/dashboard/medico', doctor._id]">
+                  {{ doctor.nombre }}
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>

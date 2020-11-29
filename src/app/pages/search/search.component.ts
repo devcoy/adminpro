@@ -55,4 +55,11 @@ export class SearchComponent implements OnInit {
 
   }
 
+
+
+
+  viewDoctor( doctor: Doctor) {
+
+  }
+
 }
