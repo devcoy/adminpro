@@ -91,10 +91,6 @@ export class UserService {
 
 
 
-
-
-
-
   validateToken(): Observable<boolean> {
 
     return this.http.get(`${BASE_URL}/auth/renew`, {
@@ -105,9 +101,9 @@ export class UserService {
       map((resp: any) => {
 
         // console.log(resp);
-        const { email, google, nombre, rol, img = '', uid } = resp.usuario;
+        const { email, google, nombre, role, img = '', uid } = resp.usuario;
 
-        this.usuario = new Usuario(nombre, email, '', img, google, rol, uid);
+        this.usuario = new Usuario(nombre, email, '', img, google, role, uid);
 
         this.saveDataInLocalStrg( resp.token, resp.menu );
 
@@ -127,6 +123,7 @@ export class UserService {
     return this.http.post(`${BASE_URL}/usuarios`, formData)
       .pipe(
         tap((resp: any) => {
+          console.log(resp);
           this.saveDataInLocalStrg( resp.token, resp.menu );
         })
       );
