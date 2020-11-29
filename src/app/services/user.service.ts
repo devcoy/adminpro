@@ -160,6 +160,7 @@ export class UserService {
       .pipe(
         tap((resp: any) => {
           this.saveDataInLocalStrg( resp.token, resp.menu );
+          this.router.navigateByUrl('/');
         })
       );
   }

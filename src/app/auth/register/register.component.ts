@@ -18,11 +18,11 @@ export class RegisterComponent {
 
     public registerForm = this.fb.group({
 
-        nombre: ['Dummy', [Validators.required, Validators.minLength(3)]],
-        email: ['dummy@email.com', [Validators.required, Validators.email]],
-        password: ['123456789', [Validators.required, Validators.minLength(8)]],
-        password2: ['123456789', [Validators.required, Validators.minLength(8)]],
-        terms: [true, [Validators.required]],
+        nombre: ['', [Validators.required, Validators.minLength(3)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        password2: ['', [Validators.required, Validators.minLength(8)]],
+        terms: [false, [Validators.required]],
 
     }, {
         validators: this.passwordEquals('password', 'password2')
