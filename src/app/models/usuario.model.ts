@@ -9,7 +9,7 @@ export class Usuario {
     public password: string;
     public img: string;
     public google: boolean;
-    public role: string;
+    public role: 'ADMIN_ROLE' | 'USER_ROLE';
     public uid: string;
 
 
@@ -20,7 +20,7 @@ export class Usuario {
         password?: string,
         img?: string,
         google?: boolean,
-        role?: string,
+        role?: 'ADMIN_ROLE' | 'USER_ROLE',
         uid?: string
     ) {
         this.nombre = nombre;

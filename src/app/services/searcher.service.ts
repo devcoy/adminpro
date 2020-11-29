@@ -56,6 +56,16 @@ export class SearcherService {
 
 
 
+  globalSearch( term : string) {
+
+    const url = `${BASE_URL}/todo/${term}`;
+    return this.http.get<any[]>(url, this.headers);
+
+  }
+
+
+
+
   search(type: 'usuarios' | 'medicos' | 'hospitales', term: string) {
 
     const url = `${BASE_URL}/todo/coleccion/${type}/${term}`;
@@ -88,28 +98,28 @@ export class SearcherService {
 
 
 
-  delteUser(user: Usuario) {
+  // delteUser(user: Usuario) {
 
-    console.log('eliminando...');
+  //   console.log('eliminando...');
 
-    Swal.fire({
-      title: '¿Borrar usuario?',
-      text: `Esta a punto de borrar a ${user.uid}`,
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, borrarlo'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'Your file has been deleted.',
-          'success'
-        )
-      }
-    })
-  }
+  //   Swal.fire({
+  //     title: '¿Borrar usuario?',
+  //     text: `Esta a punto de borrar a ${user.uid}`,
+  //     icon: 'question',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Si, borrarlo'
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       Swal.fire(
+  //         'Deleted!',
+  //         'Your file has been deleted.',
+  //         'success'
+  //       )
+  //     }
+  //   })
+  // }
 
 
 }

@@ -52,7 +52,6 @@ export class DoctorComponent implements OnInit {
 
     this.doctorForm.get('hospital').valueChanges.subscribe( hospitalId => {
       this.hospitalSelected = this.hospitals.find( h => h._id === hospitalId );
-      console.log('tick');
     });
 
   }
