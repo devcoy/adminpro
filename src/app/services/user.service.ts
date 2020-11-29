@@ -42,13 +42,14 @@ export class UserService {
     return localStorage.getItem('token') || '';
   }
 
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.usuario.role;
+  }
+
   get uid(): string {
     return this.usuario.uid || '';
   }
 
-  get role(): string {
-    return this.usuario.role || '';
-  }
 
   get headers(): object {
     return {
